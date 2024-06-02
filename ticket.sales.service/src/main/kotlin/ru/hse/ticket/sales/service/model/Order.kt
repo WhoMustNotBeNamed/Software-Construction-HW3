@@ -23,13 +23,13 @@ data class Order(
     val toStationId: UUID,
 
     @Column(STATUS_COLUMN_NAME)
-    val status: Int,
+    var status: Int,
 
     @Column(CREATED_COLUMN_NAME)
     val created: LocalDateTime,
 ) {
     companion object {
-        const val TABLE_NAME = "order"
+        const val TABLE_NAME = "order_table"
 
         const val ID_COLUMN_NAME = "id"
         const val USER_ID_COLUMN_NAME = "user_id"
