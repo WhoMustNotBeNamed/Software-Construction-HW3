@@ -7,7 +7,6 @@ import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import ru.hse.security.service.model.AuthenticationRequest
 import ru.hse.security.service.model.Buyer
 import ru.hse.security.service.repository.BuyerRepository
 import kotlin.io.encoding.ExperimentalEncodingApi
@@ -20,18 +19,17 @@ class BuyerService(
     private val jwtService: JwtService,
     private val passwordEncoder: PasswordEncoder
 ) {
-
     @Transactional
-    fun registerNewUser(user: Buyer): HttpEntity<String> {
-        if (defaultUserRepository.findByUsername(user.username) != null) {
+    fun registerNewUser(name: String, email: String, password: String): HttpEntity<String> {
+        if (defaultUserRepository.findByUsername(name) != null) {
             throw RuntimeException("User already exists")
         }
 
-        val encodedPassword = passwordEncoder.encode(user.password)
+        val encodedPassword = passwordEncoder.encode(password)
         defaultUserRepository.save(
             Buyer(
-                username = user.username,
-                email =  user.getEmail(),
+                username = name,
+                email = email,
                 password = encodedPassword,
             )
         )
@@ -41,11 +39,18 @@ class BuyerService(
             .body("User registered successfully")
     }
 
-    fun login(authenticationRequest: AuthenticationRequest): ResponseEntity<String> {
-        val userDetails: UserDetails =
-            defaultUserDetailsService.loadUserByUsername(authenticationRequest.username)
-        val jwt = jwtService.generateToken(userDetails)
+    fun login(username: String, password: String): ResponseEntity<String> {
+        val userDetails: UserDetails = try {
+            defaultUserDetailsService.loadUserByUsername(username)
+        } catch (e: Exception) {
+            throw RuntimeException("User not found")
+        }
 
-        return ResponseEntity.ok(jwt)
+        if (!passwordEncoder.matches(password, userDetails.password)) {
+            throw Exception("Invalid  password")
+        }
+
+        val jwt = jwtService.generateToken(userDetails)
+        return ResponseEntity.status(HttpStatus.OK).body(jwt)
     }
 }

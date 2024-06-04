@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 import ru.hse.security.service.repository.BuyerRepository
 
 @Service
-class NewUserDetailsService (
+class NewUserDetailsService(
     private val buyerRepository: BuyerRepository
 ) : UserDetailsService {
 

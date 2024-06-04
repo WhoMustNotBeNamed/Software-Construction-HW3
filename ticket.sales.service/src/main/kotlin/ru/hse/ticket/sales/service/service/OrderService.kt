@@ -41,8 +41,8 @@ class OrderService(
         )
     }
 
-    fun getOrders(): List<Order> {
-        return orderRepository.findAll().toList()
+    fun getOrders(): List<String> {
+        return orderRepository.findAll().map { it.toString() }
     }
 
     fun getOrder(orderId: UUID): Order {

@@ -2,6 +2,8 @@ package ru.hse.security.service.configuration
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.security.authentication.AuthenticationProvider
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -17,7 +19,6 @@ class SecurityConfiguration(
     private val newUserDetailsService: NewUserDetailsService,
     private val jwtRequestFilter: JwtRequestFilter
 ) {
-
     @Bean
     fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()
 
@@ -27,7 +28,8 @@ class SecurityConfiguration(
             .csrf { it.disable() }
             .authorizeHttpRequests { c ->
                 c
-                    .requestMatchers("/**", "/home", "/login", "/register", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                    .requestMatchers("/**", "/home", "/login/**", "/register", "/swagger-ui/**", "/v3/api-docs/**")
+                    .permitAll()
                     .anyRequest().authenticated()
             }
             .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter::class.java)

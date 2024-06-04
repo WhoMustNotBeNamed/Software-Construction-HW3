@@ -52,8 +52,7 @@ class JwtService {
 
     // Сравнение по имени не нужно
     fun validateToken(token: String, userDetails: UserDetails): Boolean {
-        val username = extractUsername(token)
-        return (username == userDetails.username && !isTokenExpired(token))
+        return (!isTokenExpired(token))
     }
 
     private fun isTokenExpired(token: String): Boolean {

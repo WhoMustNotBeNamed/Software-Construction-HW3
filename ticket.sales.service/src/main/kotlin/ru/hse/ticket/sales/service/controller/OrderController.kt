@@ -33,7 +33,7 @@ class OrderController(
     }
 
     @GetMapping("/getOrders")
-    override fun getOrders(): ResponseEntity<List<Order>> {
+    override fun getOrders(): ResponseEntity<List<String>> {
         return ResponseEntity.ok().body(orderService.getOrders())
     }
 

@@ -18,7 +18,7 @@ import kotlin.io.encoding.ExperimentalEncodingApi
 class JwtRequestFilter(
     private val userDetailsService: UserDetailsService,
     private val jwtService: JwtService
-): OncePerRequestFilter() {
+) : OncePerRequestFilter() {
 
     override fun doFilterInternal(
         request: HttpServletRequest,
@@ -46,7 +46,6 @@ class JwtRequestFilter(
                 SecurityContextHolder.getContext().authentication =
                     usernamePasswordAuthenticationToken
             } else {
-//                response.status = HttpServletResponse.SC_UNAUTHORIZED
                 throw JwtException("Invalid JWT token")
             }
         }
