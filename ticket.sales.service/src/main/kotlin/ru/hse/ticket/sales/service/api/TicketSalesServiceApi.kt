@@ -48,7 +48,7 @@ interface TicketSalesServiceApi {
             responseCode = "200",
         )
     )
-    fun getOrders(): ResponseEntity<List<Order>>
+    fun getOrders(): ResponseEntity<List<String>>
 
 
     @Operation(summary = "Предоставление информации о заказе на покупку билета")
