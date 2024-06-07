@@ -7,6 +7,14 @@ spring:
     password: postgres-password
     driver-class-name: org.postgresql.Driver
 
+  cloud:
+    openfeign:
+      client:
+        config:
+          ticket-sales-service:
+            url: http://localhost:8090
+
+
 logging:
   level:
     org:
