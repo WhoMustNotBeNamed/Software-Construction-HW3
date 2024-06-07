@@ -14,4 +14,13 @@ interface OrderRepository : CrudRepository<Order, UUID> {
         """
     )
     fun findAllByStatus(status: Int): List<Order>
+
+    @Query(
+        """
+            SELECT * 
+            FROM order_table 
+            WHERE user_id = :userId
+        """
+    )
+    fun findAllByUserId(userId: UUID): List<Order>
 }

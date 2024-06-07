@@ -11,7 +11,7 @@ import java.util.UUID
 data class Order(
     @Id
     @Column(ID_COLUMN_NAME)
-    val id: UUID,
+    val id: UUID? = null,
 
     @Column(USER_ID_COLUMN_NAME)
     val userId: UUID,
@@ -26,7 +26,7 @@ data class Order(
     var status: Int,
 
     @Column(CREATED_COLUMN_NAME)
-    val created: LocalDateTime,
+    val created: LocalDateTime? = null
 ) {
     companion object {
         const val TABLE_NAME = "order_table"

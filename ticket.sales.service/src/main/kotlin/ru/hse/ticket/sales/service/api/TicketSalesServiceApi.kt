@@ -45,10 +45,17 @@ interface TicketSalesServiceApi {
     @ApiResponses(
         ApiResponse(
             description = "Успешный запрос",
-            responseCode = "200",
+            responseCode = "201",
         )
     )
-    fun getOrders(): ResponseEntity<List<String>>
+    fun getOrders(
+        @Schema(
+            description = "ID пользователя",
+            defaultValue = "123e4567-e89b-12d3-a456-426614174000"
+        )
+        @NotNull
+        userId: UUID = UUID.fromString("123e4567-e89b-12d3-a456-426614174000")
+    ): ResponseEntity<List<String>>
 
 
     @Operation(summary = "Предоставление информации о заказе на покупку билета")

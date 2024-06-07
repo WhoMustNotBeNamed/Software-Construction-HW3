@@ -31,7 +31,6 @@ class OrderService(
 
         orderRepository.save(
             Order(
-                id = UUID.randomUUID(),
                 userId = userId,
                 fromStationId = stationRepository.findByStation(fromStation),
                 toStationId = stationRepository.findByStation(toStation),
@@ -41,8 +40,8 @@ class OrderService(
         )
     }
 
-    fun getOrders(): List<String> {
-        return orderRepository.findAll().map { it.toString() }
+    fun getOrders(userId: UUID): List<String> {
+        return orderRepository.findAllByUserId(userId).map { it.toString() }
     }
 
     fun getOrder(orderId: UUID): Order {
