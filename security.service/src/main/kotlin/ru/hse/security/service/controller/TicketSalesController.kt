@@ -46,10 +46,11 @@ class TicketSalesController(
     )
 
     @GetMapping("/showOrder")
-    override fun getOrder(@RequestParam orderId: UUID) : ResponseEntity<Any> {
+    override fun getOrder(@RequestParam orderId: UUID): ResponseEntity<Any> {
         return try {
             ticketSalesService.getOrder(orderId)
-        } catch (e : Exception) {
+        } catch (e: Exception) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.message)
         }
+    }
 }
