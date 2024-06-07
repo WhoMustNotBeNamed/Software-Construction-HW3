@@ -1,14 +1,14 @@
 databaseChangeLog:
   - include:
-      relativeToChangelogFile: true
-      file: order.sql
+        relativeToChangelogFile: true
+        file: station.sql
   - include:
       relativeToChangelogFile: true
-      file: station.sql
+      file: order.sql
   - changeSet:
-      id: 01.000.00
+      id: 02.000.00
       author: aevsyukov_1@edu.hse.ru
 #      logicalFilePath: 1.0.0/db.changelog.yaml
       changes:
         - tagDatabase:
-            tag: 01.000.00
+            tag: 02.000.00
