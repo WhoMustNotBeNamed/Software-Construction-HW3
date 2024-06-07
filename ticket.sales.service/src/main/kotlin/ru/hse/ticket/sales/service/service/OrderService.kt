@@ -1,6 +1,5 @@
 package ru.hse.ticket.sales.service.service
 
-import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import ru.hse.ticket.sales.service.model.Order
 import ru.hse.ticket.sales.service.repository.OrderRepository

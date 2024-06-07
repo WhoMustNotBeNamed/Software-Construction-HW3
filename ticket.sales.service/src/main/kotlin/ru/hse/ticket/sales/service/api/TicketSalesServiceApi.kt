@@ -8,7 +8,6 @@ import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 import org.springframework.http.ResponseEntity
-import ru.hse.ticket.sales.service.model.Order
 import java.util.*
 
 @Tag(name = "Ticket sales service", description = "API для заказа билетов")
