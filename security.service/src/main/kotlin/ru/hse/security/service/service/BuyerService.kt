@@ -1,6 +1,5 @@
 package ru.hse.security.service.service
 
-import org.springframework.http.HttpEntity
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.userdetails.UserDetails
@@ -20,7 +19,7 @@ class BuyerService(
     private val passwordEncoder: PasswordEncoder
 ) {
     @Transactional
-    fun registerNewUser(name: String, email: String, password: String): HttpEntity<String> {
+    fun registerNewUser(name: String, email: String, password: String): ResponseEntity<String> {
         if (defaultUserRepository.findByUsername(name) != null) {
             throw RuntimeException("User already exists")
         }

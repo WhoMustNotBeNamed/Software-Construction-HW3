@@ -9,7 +9,7 @@ import java.util.*
 
 @FeignClient(name = "ticket-sales-service")
 interface TicketSalesServiceApi {
-    @PostMapping("/order/create"/*, produces = [MediaType.TEXT_PLAIN_VALUE]*/)
+    @PostMapping("/order/create")
     fun createOrder(
         @RequestParam("userId") userId: UUID,
         @RequestParam("fromStation") fromStation: String,
@@ -24,5 +24,5 @@ interface TicketSalesServiceApi {
     @GetMapping("/order/showOrder")
     fun getOrder(
         @RequestParam("orderId") orderId: UUID
-    ): ResponseEntity<Any>
+    ): ResponseEntity<String>
 }

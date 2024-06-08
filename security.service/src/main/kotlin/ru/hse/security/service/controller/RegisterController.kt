@@ -19,23 +19,32 @@ class RegisterController(
     private val userService: BuyerService
 ) : SecurityServiceApi {
     @PostMapping("/register")
-    override fun register(@RequestParam username: String, @RequestParam email: String, @RequestParam password: String) =
-        userService.registerNewUser(username, email, password)
+    override fun register(
+        @RequestParam username: String,
+
+        @RequestParam  email: String,
+
+        @RequestParam password: String
+    ): ResponseEntity<String> {
+        return try {
+            userService.registerNewUser(username, email, password)
+        } catch (e: Exception) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.message)
+        }
+    }
 
     @PostMapping("/login")
-    override fun login(@RequestParam username: String, @RequestParam password: String): ResponseEntity<String> {
+    override fun login(
+        @RequestParam username: String, @RequestParam password: String
+    ): ResponseEntity<String> {
         return try {
             userService.login(username, password)
         } catch (e: Exception) {
-            return ResponseEntity
-                .status(HttpStatus.UNAUTHORIZED)
-                .body(e.message)
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.message)
         }
     }
 
     @GetMapping("/getUserInfo")
     override fun getUserInfo() =
-        "Username: ${SecurityContextHolder.getContext().authentication.name} \n " +
-                "Password: ${SecurityContextHolder.getContext().authentication.credentials} \n " +
-                "JWT token: ${SecurityContextHolder.getContext().authentication.credentials} \n "
+        "Username: ${SecurityContextHolder.getContext().authentication.name}"
 }

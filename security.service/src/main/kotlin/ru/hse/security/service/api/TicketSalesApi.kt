@@ -1,4 +1,4 @@
-package ru.hse.ticket.sales.service.api
+package ru.hse.security.service.api
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Schema
@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
+import jakarta.validation.constraints.Pattern
 import org.springframework.http.ResponseEntity
 import java.util.*
 
@@ -16,16 +17,14 @@ interface TicketSalesApi {
     @ApiResponses(
         ApiResponse(
             description = "Успешный запрос",
-            responseCode = "200",
+            responseCode = "201",
+        ),
+        ApiResponse(
+            description = "Некорректный запрос",
+            responseCode = "400",
         )
     )
     fun createOrder(
-//        @Schema(
-//            description = "ID пользователя",
-//            defaultValue = "123e4567-e89b-12d3-a456-426614174000"
-//        )
-//        @NotNull
-//        userId: UUID = UUID.fromString("123e4567-e89b-12d3-a456-426614174000"),
         @Schema(
             description = "Станция отправления",
             defaultValue = "Moscow"
@@ -44,7 +43,11 @@ interface TicketSalesApi {
     @ApiResponses(
         ApiResponse(
             description = "Успешный запрос",
-            responseCode = "201",
+            responseCode = "200",
+        ),
+        ApiResponse(
+            description = "Некорректный запрос",
+            responseCode = "400",
         )
     )
     fun getOrders(): ResponseEntity<List<String>>
@@ -55,6 +58,10 @@ interface TicketSalesApi {
         ApiResponse(
             description = "Успешный запрос",
             responseCode = "200",
+        ),
+        ApiResponse(
+            description = "Некорректный запрос",
+            responseCode = "400",
         )
     )
     fun getOrder(
@@ -62,7 +69,10 @@ interface TicketSalesApi {
             description = "ID заказа",
             defaultValue = "123e4567-e89b-12d3-a456-426614174000"
         )
-        @NotNull
-        orderId: UUID = UUID.fromString("123e4567-e89b-12d3-a456-426614174000")
-    ): ResponseEntity<Any>
+        @Pattern(
+            regexp = "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
+            message = "Указанное значение не является UUID"
+        )
+        orderId: String ="123e4567-e89b-12d3-a456-426614174000"
+    ): ResponseEntity<String>
 }

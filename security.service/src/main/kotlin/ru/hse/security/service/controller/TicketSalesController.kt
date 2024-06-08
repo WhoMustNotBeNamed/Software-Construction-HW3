@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import ru.hse.security.service.client.rest.api.TicketSalesServiceApi
 import ru.hse.security.service.repository.BuyerRepository
-import ru.hse.ticket.sales.service.api.TicketSalesApi
+import ru.hse.security.service.api.TicketSalesApi
 import java.util.*
 
 @RestController
@@ -26,6 +26,10 @@ class TicketSalesController(
         @RequestParam toStation: String
     ): ResponseEntity<String> {
         return try {
+            if (SecurityContextHolder.getContext().authentication.name == "anonymousUser") {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Login to create order")
+            }
+
             ticketSalesService.createOrder(
                 buyerRepository.findByUsername(
                     SecurityContextHolder.getContext().authentication.name
@@ -34,23 +38,33 @@ class TicketSalesController(
                 toStation
             )
         } catch (e: Exception) {
-            ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.message)
+            ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.message?.split('[')?.last()?.split(']')?.first())
         }
     }
 
     @GetMapping("/getOrders")
-    override fun getOrders() = ticketSalesService.getOrders(
-        buyerRepository.findByUsername(
-            SecurityContextHolder.getContext().authentication.name
-        )?.id!!
-    )
+    override fun getOrders(): ResponseEntity<List<String>> {
+        return try {
+            if (SecurityContextHolder.getContext().authentication.name == "anonymousUser") {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(listOf("Login to create order"))
+            }
+
+            ticketSalesService.getOrders(
+                buyerRepository.findByUsername(
+                    SecurityContextHolder.getContext().authentication.name
+                )?.id!!
+            )
+        } catch (e: Exception) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(listOf(e.message!!))
+        }
+    }
 
     @GetMapping("/showOrder")
-    override fun getOrder(@RequestParam orderId: UUID): ResponseEntity<Any> {
+    override fun getOrder(@RequestParam orderId: String): ResponseEntity<String> {
         return try {
-            ticketSalesService.getOrder(orderId)
+            ticketSalesService.getOrder(UUID.fromString(orderId))
         } catch (e: Exception) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.message)
+            ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.message?.split('[')?.last()?.split(']')?.first())
         }
     }
 }

@@ -26,8 +26,8 @@ class SecurityConfiguration(
             .csrf { it.disable() }
             .authorizeHttpRequests { c ->
                 c
-                    .requestMatchers("/**", "/home", "/login/**", "/register", "/swagger-ui/**", "/v3/api-docs/**")
-                    .permitAll()
+                    .requestMatchers("/**", "/home", "/login/**", "/register", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                    /*.requestMatchers("/ticketApi/createOrder", "/ticketApi/getOrders", "/ticketApi/showOrder", "tickerSellesService").authenticated()*/
                     .anyRequest().authenticated()
             }
             .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter::class.java)
