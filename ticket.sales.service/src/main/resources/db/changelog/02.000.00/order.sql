@@ -12,6 +12,5 @@ create table order_table
     foreign key (user_id) references user_table (id),
     foreign key (from_station_id) references station(id),
     foreign key (to_station_id) references station(id)
-
 )
 -- rollback delete order_table;
