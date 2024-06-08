@@ -6,10 +6,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.constraints.NotBlank
-import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Pattern
 import org.springframework.http.ResponseEntity
-import java.util.*
 
 @Tag(name = "Ticket sales service", description = "API для заказа билетов")
 interface TicketSalesApi {
