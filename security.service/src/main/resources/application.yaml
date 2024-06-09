@@ -2,7 +2,7 @@
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/hse_sc
+    url: jdbc:postgresql://postgres:5432/hse_sc
     username: postgres-user
     password: postgres-password
     driver-class-name: org.postgresql.Driver
@@ -12,7 +12,7 @@ spring:
       client:
         config:
           ticket-sales-service:
-            url: http://localhost:8090
+            url: http://host.docker.internal:8090
 
 
 logging:
